@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="Fintalks.Api/Fintalks.Api.csproj" />
+  <Project Path="Fintalks.DB/Fintalks.DB.csproj" Id="9f439d6b-771e-48c3-8497-0fd5d6857e17" />
 </Solution>
