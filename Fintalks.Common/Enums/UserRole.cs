@@ -4,8 +4,9 @@ using System.Text;
 
 namespace Fintalks.Common.Enums
 {
-    public enum UserRole { 
+    public enum UserRole
+    {
         ADMIN,
-        USER
+        USER,
     }
 }
