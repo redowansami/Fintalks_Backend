@@ -16,17 +16,11 @@ public sealed class GlobalExceptionHandler() : IExceptionHandler
 
         httpContext.Response.StatusCode = statusCode;
 
-        object? errors = null;
-        if (exception is Fintalks.Common.Exceptions.ValidationException validationException)
-        {
-            errors = validationException.Errors;
-        }
-
         var response = new ErrorResponse
         {
             Success = false,
             Message = message,
-            Errors = errors,
+            Errors = null,
             Stack = exception.StackTrace,
         };
 

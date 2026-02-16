@@ -16,7 +16,12 @@ namespace Fintalks.DB
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<DBUser>().HasKey(e => e.UserID);
             modelBuilder.Entity<DBUser>().Property(e => e.UserName).IsRequired().HasMaxLength(10);
+            modelBuilder.Entity<DBUser>().Property(e => e.FirstName).IsRequired().HasMaxLength(10);
+            modelBuilder.Entity<DBUser>().Property(e => e.LastName).IsRequired().HasMaxLength(10);
+            modelBuilder.Entity<DBUser>().Property(e => e.Email).HasMaxLength(255);
+            modelBuilder.Entity<DBUser>().Property(e => e.Bio).HasMaxLength(500);
 
             base.OnModelCreating(modelBuilder);
         }

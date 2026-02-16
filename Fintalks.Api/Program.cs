@@ -9,15 +9,30 @@ using Fintalks.Service.Mappers;
 using Fintalks.Service.Services.UserService;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 builder.Services.AddFluentValidationAutoValidation();
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<CustomValidationAttribute>();
+});
+
+builder
+    .Services.AddControllers()
+    .AddJsonOptions(options =>
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter())
+    );
 
 builder.Services.AddControllers();
 
@@ -34,13 +49,12 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 );
 var app = builder.Build();
 
-app.UseExceptionHandler();
-
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseExceptionHandler(opt => { });
 }
 
 app.UseHttpsRedirection();
