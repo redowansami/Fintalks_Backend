@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Fintalks.Repository.Repositories.UserRepository
 {
-    public class UserRepository(ApplicationDBContext _context)
+    public class UserRepository(ApplicationDBContext _context) : IUserRepository
     {
         public async Task<DBUser> CreateUser(DBUser user)
         {
@@ -21,12 +21,14 @@ namespace Fintalks.Repository.Repositories.UserRepository
 
         public async Task<IEnumerable<DBUser>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            IQueryable<DBUser> query = _context.Users.AsNoTracking();
+            return await query.ToListAsync();
         }
 
-        public async Task<DBUser> GetUserById(Guid id)
+        public async Task<DBUser?> GetUserById(Guid id)
         {
-            return await _context.Users.FindAsync(id);
+            IQueryable<DBUser> query = _context.Users.AsNoTracking();
+            return await query.FirstOrDefaultAsync(u => u.UserID == id);
         }
 
         public async Task<DBUser> UpdateUser(Guid id, DBUser UpdateUser)

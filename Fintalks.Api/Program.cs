@@ -13,20 +13,28 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 builder.Services.AddFluentValidationAutoValidation();
 
 builder.Services.AddControllers();
 
-builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<IUserSevice, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddAutoMapper(cfg => { }, typeof(UserMapperProfile));
+
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 var app = builder.Build();
+
+app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {

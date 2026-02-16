@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using AutoMapper;
+using Fintalks.Api.Exceptions;
 using Fintalks.Common.Commands;
 using Fintalks.Common.DTOs;
 using Fintalks.Common.Models;
@@ -10,7 +11,7 @@ using Fintalks.Repository.Repositories.UserRepository;
 
 namespace Fintalks.Service.Services.UserService
 {
-    public class UserService(UserRepository _userRepository, IMapper _mapper) : IUserSevice
+    public class UserService(IUserRepository _userRepository, IMapper _mapper) : IUserSevice
     {
         public async Task<UserResponseDTO> CreateUser(CreateUserCommand createUser)
         {
@@ -33,6 +34,10 @@ namespace Fintalks.Service.Services.UserService
         public async Task<UserResponseDTO> GetUserByID(Guid id)
         {
             var user = await _userRepository.GetUserById(id);
+            if (user is null)
+            {
+                throw new NotFoundException("User", id);
+            }
             var userModel = _mapper.Map<User>(user);
             var userResponse = _mapper.Map<UserResponseDTO>(userModel);
             return userResponse;

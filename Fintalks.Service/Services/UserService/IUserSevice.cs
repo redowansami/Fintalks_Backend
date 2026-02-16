@@ -7,7 +7,7 @@ using Fintalks.DB.DBEntity;
 
 namespace Fintalks.Service.Services.UserService
 {
-    internal interface IUserSevice
+    public interface IUserSevice
     {
         public Task<UserResponseDTO> CreateUser(CreateUserCommand createUser);
 

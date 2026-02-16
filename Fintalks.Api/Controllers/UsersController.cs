@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Fintalks.Api.Exceptions;
 using Fintalks.Common.Commands;
 using Fintalks.Common.DTOs;
 using Fintalks.DB;
@@ -15,15 +16,8 @@ namespace Fintalks.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UsersController(IUserSevice _userService) : ControllerBase
     {
-        private readonly UserService _userService;
-
-        public UsersController(UserService userService)
-        {
-            _userService = userService;
-        }
-
         [HttpPost]
         public async Task<ActionResult<UserResponseDTO>> CreateUser(CreateUserCommand user)
         {
@@ -42,7 +36,6 @@ namespace Fintalks.Api.Controllers
         public async Task<ActionResult<DBUser>> GetDBUser(Guid id)
         {
             var user = await _userService.GetUserByID(id);
-
             return Ok(user);
         }
 

@@ -5,7 +5,7 @@ using Fintalks.DB.DBEntity;
 
 namespace Fintalks.Repository.Repositories.UserRepository
 {
-    internal interface IUserRepository
+    public interface IUserRepository
     {
         public Task<DBUser> CreateUser(DBUser user);
 
