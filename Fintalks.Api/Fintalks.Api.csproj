@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
@@ -29,5 +28,4 @@
     <ProjectReference Include="..\Fintalks.DB\Fintalks.DB.csproj" />
     <ProjectReference Include="..\Fintalks.Service\Fintalks.Service.csproj" />
   </ItemGroup>
-
 </Project>

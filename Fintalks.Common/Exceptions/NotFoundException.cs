@@ -1,13 +1,11 @@
 ﻿using System.Net;
+using Fintalks.Common.Constants;
 
 namespace Fintalks.Api.Exceptions
 {
     public sealed class NotFoundException : AppException
     {
         public NotFoundException(string resourceName, object key)
-            : base(
-                $"{resourceName} with identifier '{key}' was not found.",
-                HttpStatusCode.NotFound
-            ) { }
+            : base(ErrorConst.Message.NotFound(resourceName, key), HttpStatusCode.NotFound) { }
     }
 }

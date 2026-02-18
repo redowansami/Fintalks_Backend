@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
 using Fintalks.Api.Exceptions;
 using Fintalks.Common.Commands;
+using Fintalks.Common.Constants;
 using Fintalks.Common.DTOs;
 using Fintalks.Common.Models;
 using Fintalks.DB.DBEntity;
@@ -13,14 +11,24 @@ namespace Fintalks.Service.Services.UserService
 {
     public class UserService(IUserRepository _userRepository, IMapper _mapper) : IUserSevice
     {
-        public async Task<UserResponseDTO> CreateUser(CreateUserCommand createUser)
+        public async Task<CreateUserResponseDTO> CreateUser(CreateUserCommand createUser)
         {
-            var user = _mapper.Map<User>(createUser);
-            var DBuser = _mapper.Map<DBUser>(user);
+            bool userNameExists = await _userRepository.IsUserNameTaken(createUser.UserName);
+            bool emailExists = await _userRepository.IsEmailTaken(createUser.Email);
+            List<string> errors = new();
+            if (userNameExists)
+                errors.Add(ErrorConst.Message.userNameExists);
+            if (emailExists)
+                errors.Add(ErrorConst.Message.emailExists);
+            if (errors.Any())
+                throw new ConflictException(string.Join(", ", errors));
+
+            var userModel = _mapper.Map<User>(createUser);
+            var DBuser = _mapper.Map<DBUser>(userModel);
             var createdUser = await _userRepository.CreateUser(DBuser);
             var userResponse = _mapper.Map<User>(createdUser);
 
-            return _mapper.Map<UserResponseDTO>(userResponse);
+            return _mapper.Map<CreateUserResponseDTO>(userResponse);
         }
 
         public async Task<IEnumerable<UserResponseDTO>> GetUsers()
@@ -35,9 +43,7 @@ namespace Fintalks.Service.Services.UserService
         {
             var user = await _userRepository.GetUserById(id);
             if (user is null)
-            {
                 throw new NotFoundException("User", id);
-            }
             var userModel = _mapper.Map<User>(user);
             var userResponse = _mapper.Map<UserResponseDTO>(userModel);
             return userResponse;
@@ -45,7 +51,10 @@ namespace Fintalks.Service.Services.UserService
 
         public async Task<DBUser> GetDBUserByID(Guid id)
         {
-            return await _userRepository.GetUserById(id);
+            var user = await _userRepository.GetUserById(id);
+            if (user is null)
+                throw new NotFoundException("User", id);
+            return user;
         }
 
         public async Task<UserResponseDTO> UpdateUser(Guid id, UpdateUserCommand UpdateUser)

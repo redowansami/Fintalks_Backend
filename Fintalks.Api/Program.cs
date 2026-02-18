@@ -1,8 +1,5 @@
-using System;
 using System.Text.Json.Serialization;
-using AutoMapper;
 using Fintalks.Api.Validator;
-using Fintalks.Common.Commands;
 using Fintalks.DB;
 using Fintalks.Repository.Repositories.UserRepository;
 using Fintalks.Service.Mappers;
@@ -45,16 +42,19 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(cfg => { }, typeof(UserMapperProfile));
 
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+    options
+        .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
 );
 var app = builder.Build();
+
+app.UseExceptionHandler(opt => { });
 
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseExceptionHandler(opt => { });
 }
 
 app.UseHttpsRedirection();

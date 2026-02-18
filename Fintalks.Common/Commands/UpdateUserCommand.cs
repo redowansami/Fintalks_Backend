@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Fintalks.Common.Enums;
-
-namespace Fintalks.Common.Commands
+﻿namespace Fintalks.Common.Commands
 {
     public class UpdateUserCommand
     {

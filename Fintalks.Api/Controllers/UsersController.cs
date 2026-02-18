@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Fintalks.Api.Exceptions;
-using Fintalks.Common.Commands;
+﻿using Fintalks.Common.Commands;
 using Fintalks.Common.DTOs;
-using Fintalks.DB;
-using Fintalks.DB.DBEntity;
 using Fintalks.Service.Services.UserService;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Fintalks.Api.Controllers
 {
@@ -19,21 +10,21 @@ namespace Fintalks.Api.Controllers
     public class UsersController(IUserSevice _userService) : ControllerBase
     {
         [HttpPost]
-        public async Task<ActionResult<UserResponseDTO>> CreateUser(CreateUserCommand user)
+        public async Task<ActionResult<CreateUserResponseDTO>> CreateUser(CreateUserCommand user)
         {
             var createUser = await _userService.CreateUser(user);
-            return CreatedAtAction("GetDBUser", new { id = createUser.UserID }, createUser);
+            return CreatedAtAction(nameof(GetUserByID), new { id = createUser.UserID }, createUser);
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DBUser>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserResponseDTO>>> GetUsers()
         {
             var users = await _userService.GetUsers();
             return Ok(users);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<DBUser>> GetDBUser(Guid id)
+        public async Task<ActionResult<UserResponseDTO>> GetUserByID(Guid id)
         {
             var user = await _userService.GetUserByID(id);
             return Ok(user);

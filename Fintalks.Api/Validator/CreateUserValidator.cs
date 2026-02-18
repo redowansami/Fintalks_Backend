@@ -1,4 +1,5 @@
 ﻿using Fintalks.Common.Commands;
+using Fintalks.Common.Constants;
 using FluentValidation;
 
 namespace Fintalks.Api.Validator
@@ -10,13 +11,16 @@ namespace Fintalks.Api.Validator
             RuleFor(createUser => createUser.Email)
                 .NotEmpty()
                 .EmailAddress()
-                .WithMessage("Invalid email format.");
+                .WithMessage(UserConst.Message.invalidEmail);
             RuleFor(createUser => createUser.UserName)
                 .NotEmpty()
-                .MinimumLength(3)
-                .MaximumLength(10)
+                .MinimumLength(UserConst.Length.minUserName)
+                .MaximumLength(UserConst.Length.maxUserName)
                 .Matches("^[a-zA-Z0-9_]+$");
-            RuleFor(createUser => createUser.Name).NotEmpty().MinimumLength(3).MaximumLength(25);
+            RuleFor(createUser => createUser.Name)
+                .NotEmpty()
+                .MinimumLength(UserConst.Length.minName)
+                .MaximumLength(UserConst.Length.maxName);
         }
     }
 }

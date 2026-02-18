@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Fintalks.Common.Commands
+﻿namespace Fintalks.Common.Commands
 {
     public class CreateUserCommand
     {
-        public string UserName { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
+        public required string UserName { get; set; }
+        public required string Name { get; set; }
+        public required string Email { get; set; }
 
         public override string ToString()
         {

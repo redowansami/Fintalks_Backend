@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
-using Fintalks.Common.Commands;
-using Fintalks.Common.Models;
-using Fintalks.DB;
+﻿using Fintalks.DB;
 using Fintalks.DB.DBEntity;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +6,8 @@ namespace Fintalks.Repository.Repositories.UserRepository
 {
     public class UserRepository(ApplicationDBContext _context) : IUserRepository
     {
+        private IQueryable<DBUser> query = _context.Users;
+
         public async Task<DBUser> CreateUser(DBUser user)
         {
             _context.Users.Add(user);
@@ -21,13 +17,11 @@ namespace Fintalks.Repository.Repositories.UserRepository
 
         public async Task<IEnumerable<DBUser>> GetUsers()
         {
-            IQueryable<DBUser> query = _context.Users.AsNoTracking();
             return await query.ToListAsync();
         }
 
         public async Task<DBUser?> GetUserById(Guid id)
         {
-            IQueryable<DBUser> query = _context.Users.AsNoTracking();
             return await query.FirstOrDefaultAsync(u => u.UserID == id);
         }
 
@@ -42,6 +36,26 @@ namespace Fintalks.Repository.Repositories.UserRepository
         {
             _context.Users.Remove(userToDelete);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<bool> IsEmailTaken(string email)
+        {
+            var user = await query.FirstOrDefaultAsync(u => u.Email == email);
+            if (user is null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public async Task<bool> IsUserNameTaken(string userName)
+        {
+            var user = await query.FirstOrDefaultAsync(u => u.UserName == userName);
+            if (user is null)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

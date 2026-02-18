@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Fintalks.Common.Enums;
+﻿using Fintalks.Common.Enums;
 
 namespace Fintalks.Common.Models
 {
     public class User
     {
         public Guid UserID { get; set; } = new Guid();
-        public string UserName { get; set; }
-        public string Name { get; set; }
+        public required string UserName { get; set; }
+        public required string Name { get; set; }
 
-        public string Email { get; set; }
+        public required string Email { get; set; }
         public DateOnly JoinDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 
         public UserRole Role { get; set; } = UserRole.USER;

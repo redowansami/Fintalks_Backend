@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Fintalks.Common.Commands;
+﻿using Fintalks.Common.Commands;
 using Fintalks.Common.DTOs;
-using Fintalks.DB.DBEntity;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Fintalks.Service.Services.UserService
 {
     public interface IUserSevice
     {
-        public Task<UserResponseDTO> CreateUser(CreateUserCommand createUser);
+        public Task<CreateUserResponseDTO> CreateUser(CreateUserCommand createUser);
 
         public Task<IEnumerable<UserResponseDTO>> GetUsers();
 

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -25,19 +24,19 @@ namespace Fintalks.DB.Migrations
                     isEmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     Bio = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProfilePictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.UserID);
-                });
+                }
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Users");
+            migrationBuilder.DropTable(name: "Users");
         }
     }
 }

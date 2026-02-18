@@ -1,4 +1,5 @@
-﻿using Fintalks.Common.Models;
+﻿using Fintalks.Common.Constants;
+using Fintalks.Common.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -19,7 +20,7 @@ namespace Fintalks.Api.Validator
                 var responseObject = new ErrorResponse
                 {
                     Success = false,
-                    Message = "One or more validation errors occurred.",
+                    Message = ErrorConst.Message.validationError,
                     Errors = errors,
                     Stack = null,
                 };

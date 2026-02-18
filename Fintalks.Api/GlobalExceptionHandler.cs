@@ -1,8 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Fintalks.Api.Exceptions;
+﻿using Fintalks.Api.Exceptions;
+using Fintalks.Common.Constants;
 using Fintalks.Common.Models;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 
 public sealed class GlobalExceptionHandler() : IExceptionHandler
 {
@@ -33,9 +32,6 @@ public sealed class GlobalExceptionHandler() : IExceptionHandler
         exception switch
         {
             AppException appEx => ((int)appEx.StatusCode, appEx.Message),
-            ArgumentNullException => (StatusCodes.Status400BadRequest, "Invalid argument provided"),
-            ArgumentException => (StatusCodes.Status400BadRequest, "Invalid argument provided"),
-            UnauthorizedAccessException => (StatusCodes.Status401Unauthorized, "Unauthorized"),
-            _ => (StatusCodes.Status500InternalServerError, "An unexpected error occurred"),
+            _ => (StatusCodes.Status500InternalServerError, ErrorConst.Message.genericError),
         };
 }
