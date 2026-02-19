@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Fintalks.Api.Exceptions
+namespace Fintalks.Common.Exceptions
 {
     public abstract class AppException : Exception
     {

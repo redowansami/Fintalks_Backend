@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Fintalks.Api.Exceptions;
 using Fintalks.Common.Commands;
 using Fintalks.Common.Constants;
 using Fintalks.Common.DTOs;
+using Fintalks.Common.Exceptions;
 using Fintalks.Common.Models;
 using Fintalks.DB.DBEntity;
 using Fintalks.Repository.Repositories.UserRepository;

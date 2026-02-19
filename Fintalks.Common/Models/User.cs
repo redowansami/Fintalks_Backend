@@ -4,7 +4,7 @@ namespace Fintalks.Common.Models
 {
     public class User
     {
-        public Guid UserID { get; set; } = new Guid();
+        public Guid UserID { get; set; } = Guid.NewGuid();
         public required string UserName { get; set; }
         public required string Name { get; set; }
 

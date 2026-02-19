@@ -1,5 +1,5 @@
-﻿using Fintalks.Api.Exceptions;
-using Fintalks.Common.Constants;
+﻿using Fintalks.Common.Constants;
+using Fintalks.Common.Exceptions;
 using Fintalks.Common.Models;
 using Microsoft.AspNetCore.Diagnostics;
 

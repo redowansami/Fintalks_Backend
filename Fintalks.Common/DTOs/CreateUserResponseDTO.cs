@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using Fintalks.Common.Enums;
-
-namespace Fintalks.Common.DTOs
+﻿namespace Fintalks.Common.DTOs
 {
     public class CreateUserResponseDTO
     {

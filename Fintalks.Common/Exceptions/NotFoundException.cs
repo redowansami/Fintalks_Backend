@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using Fintalks.Common.Constants;
 
-namespace Fintalks.Api.Exceptions
+namespace Fintalks.Common.Exceptions
 {
     public sealed class NotFoundException : AppException
     {

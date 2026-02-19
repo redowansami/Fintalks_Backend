@@ -18,7 +18,9 @@ namespace Fintalks.DB
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<DBUser>().HasQueryFilter(e => e.DeletedAt == null);
-            modelBuilder.Entity<DBUser>().HasKey(e => e.UserID);
+            modelBuilder.Entity<DBUser>().HasKey(e => e.ID);
+            modelBuilder.Entity<DBUser>().Property(e => e.ID).ValueGeneratedOnAdd();
+            modelBuilder.Entity<DBUser>().HasIndex(e => e.UserID).IsUnique();
             modelBuilder.Entity<DBUser>().HasIndex(e => e.UserName).IsUnique();
             modelBuilder.Entity<DBUser>().HasIndex(e => e.Email).IsUnique();
             modelBuilder

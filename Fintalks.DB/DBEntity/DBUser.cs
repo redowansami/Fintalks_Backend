@@ -5,6 +5,7 @@ namespace Fintalks.DB.DBEntity
 {
     public class DBUser : ISoftDeletable
     {
+        public int ID { get; set; }
         public Guid UserID { get; set; }
         public required string UserName { get; set; }
         public required string FirstName { get; set; }
@@ -16,6 +17,7 @@ namespace Fintalks.DB.DBEntity
         public string? Bio { get; set; }
         public string? ProfilePictureUrl { get; set; }
         public DateTime? DeletedAt { get; set; }
+        public bool Unused { get; set; }
 
         public override string ToString()
         {
