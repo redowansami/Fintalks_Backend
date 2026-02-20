@@ -17,7 +17,6 @@ namespace Fintalks.DB.DBEntity
         public string? Bio { get; set; }
         public string? ProfilePictureUrl { get; set; }
         public DateTime? DeletedAt { get; set; }
-        public bool Unused { get; set; }
 
         public override string ToString()
         {

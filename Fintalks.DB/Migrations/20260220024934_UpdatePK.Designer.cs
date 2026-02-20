@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fintalks.DB.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20260217084239_UserContraints1")]
-    partial class UserContraints1
+    [Migration("20260220024934_UpdatePK")]
+    partial class UpdatePK
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,9 +27,11 @@ namespace Fintalks.DB.Migrations
 
             modelBuilder.Entity("Fintalks.DB.DBEntity.DBUser", b =>
                 {
-                    b.Property<Guid>("UserID")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<string>("Bio")
                         .HasMaxLength(500)
@@ -62,17 +64,23 @@ namespace Fintalks.DB.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<bool>("isEmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.HasKey("UserID");
+                    b.HasKey("ID");
 
                     b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("UserID")
                         .IsUnique();
 
                     b.HasIndex("UserName")

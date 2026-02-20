@@ -5,7 +5,7 @@
 namespace Fintalks.DB.Migrations
 {
     /// <inheritdoc />
-    public partial class ChangeUserPK : Migration
+    public partial class UpdatePK : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
