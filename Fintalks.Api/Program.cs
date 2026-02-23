@@ -1,8 +1,11 @@
 using System.Text.Json.Serialization;
 using Fintalks.Api.Validator;
 using Fintalks.DB;
+using Fintalks.Repository.Repositories.UserInfoRepository;
 using Fintalks.Repository.Repositories.UserRepository;
 using Fintalks.Service.Mappers;
+using Fintalks.Service.Services.UserInfoService;
+using Fintalks.Service.Services.UserManagementService;
 using Fintalks.Service.Services.UserService;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -34,7 +37,11 @@ builder
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IUserSevice, UserService>();
+builder.Services.AddScoped<IUserInfoService, UserInfoService>();
+builder.Services.AddScoped<IUserManagementService, UserManagementService>();
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserInfoRepository, UserInfoRepository>();
 
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();

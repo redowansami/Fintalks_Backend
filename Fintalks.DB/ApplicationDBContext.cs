@@ -11,6 +11,7 @@ namespace Fintalks.DB
             : base(options) { }
 
         public DbSet<DBUser> Users { get; set; }
+        public DbSet<DBUserInfo> UserInfos { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
             optionsBuilder.AddInterceptors(new SoftDeleteInterceptor());
@@ -46,6 +47,32 @@ namespace Fintalks.DB
                 .Entity<DBUser>()
                 .Property(e => e.Bio)
                 .HasMaxLength(UserConst.Length.maxBio);
+
+            modelBuilder
+                .Entity<DBUser>()
+                .HasOne(e => e.UserInfo)
+                .WithOne(e => e.User)
+                .HasForeignKey<DBUserInfo>(e => e.DBUserID)
+                .IsRequired();
+
+            modelBuilder.Entity<DBUserInfo>().HasKey(e => e.ID);
+            modelBuilder.Entity<DBUserInfo>().Property(e => e.ID).ValueGeneratedOnAdd();
+            modelBuilder
+                .Entity<DBUserInfo>()
+                .Property(e => e.FatherName)
+                .HasMaxLength(UserConst.Length.maxFatherName);
+            modelBuilder
+                .Entity<DBUserInfo>()
+                .Property(e => e.MotherName)
+                .HasMaxLength(UserConst.Length.maxMotherName);
+            modelBuilder
+                .Entity<DBUserInfo>()
+                .Property(e => e.Nid)
+                .HasMaxLength(UserConst.Length.maxNid);
+            modelBuilder
+                .Entity<DBUserInfo>()
+                .Property(e => e.PhoneNumber)
+                .HasMaxLength(UserConst.Length.maxPhoneNumber);
 
             base.OnModelCreating(modelBuilder);
         }

@@ -4,7 +4,6 @@ using Fintalks.DB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -12,11 +11,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fintalks.DB.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20260220024934_UpdatePK")]
-    partial class UpdatePK
+    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,6 +84,59 @@ namespace Fintalks.DB.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Fintalks.DB.DBEntity.DBUserInfo", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int>("DBUserID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FatherName")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("MotherName")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("Nid")
+                        .IsRequired()
+                        .HasMaxLength(17)
+                        .HasColumnType("nvarchar(17)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("DBUserID")
+                        .IsUnique();
+
+                    b.ToTable("UserInfos");
+                });
+
+            modelBuilder.Entity("Fintalks.DB.DBEntity.DBUserInfo", b =>
+                {
+                    b.HasOne("Fintalks.DB.DBEntity.DBUser", "User")
+                        .WithOne("UserInfo")
+                        .HasForeignKey("Fintalks.DB.DBEntity.DBUserInfo", "DBUserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Fintalks.DB.DBEntity.DBUser", b =>
+                {
+                    b.Navigation("UserInfo");
                 });
 #pragma warning restore 612, 618
         }

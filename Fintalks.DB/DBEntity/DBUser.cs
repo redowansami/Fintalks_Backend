@@ -9,7 +9,7 @@ namespace Fintalks.DB.DBEntity
         public Guid UserID { get; set; }
         public required string UserName { get; set; }
         public required string FirstName { get; set; }
-        public string? LastName { get; set; }
+        public required string LastName { get; set; }
         public required string Email { get; set; }
         public DateOnly JoinDate { get; set; }
         public UserRole Role { get; set; }
@@ -17,6 +17,7 @@ namespace Fintalks.DB.DBEntity
         public string? Bio { get; set; }
         public string? ProfilePictureUrl { get; set; }
         public DateTime? DeletedAt { get; set; }
+        public DBUserInfo? UserInfo { get; set; }
 
         public override string ToString()
         {
