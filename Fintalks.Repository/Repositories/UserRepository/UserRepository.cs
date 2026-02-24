@@ -1,5 +1,6 @@
 ﻿using Fintalks.DB;
 using Fintalks.DB.DBEntity;
+using Fintalks.DB.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fintalks.Repository.Repositories.UserRepository
@@ -34,7 +35,8 @@ namespace Fintalks.Repository.Repositories.UserRepository
 
         public async Task DeleteUser(DBUser userToDelete)
         {
-            _context.Users.Remove(userToDelete);
+            //_context.Users.Remove(userToDelete);
+            _context.Users.SoftDelete(userToDelete);
             await _context.SaveChangesAsync();
         }
 

@@ -1,6 +1,5 @@
 ﻿using Fintalks.Common.Constants;
 using Fintalks.DB.DBEntity;
-using Fintalks.DB.Interceptors;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fintalks.DB
@@ -12,9 +11,6 @@ namespace Fintalks.DB
 
         public DbSet<DBUser> Users { get; set; }
         public DbSet<DBUserInfo> UserInfos { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-            optionsBuilder.AddInterceptors(new SoftDeleteInterceptor());
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
