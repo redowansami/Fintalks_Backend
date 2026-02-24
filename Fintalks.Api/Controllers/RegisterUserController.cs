@@ -17,5 +17,12 @@ namespace Fintalks.Api.Controllers
             var result = await _userManagementService.CreateUser(user);
             return result;
         }
+
+        [HttpPost("Failed")]
+        public async Task<ActionResult<string>> FailedCreateUser(RegisterUserCommand user)
+        {
+            var result = await _userManagementService.FailedCreateUser(user);
+            return result;
+        }
     }
 }

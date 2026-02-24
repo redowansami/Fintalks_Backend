@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using Fintalks.Api.Validator;
 using Fintalks.DB;
 using Fintalks.Repository.Repositories.UserInfoRepository;
+using Fintalks.Repository.Repositories.UserManagementRepository;
 using Fintalks.Repository.Repositories.UserRepository;
 using Fintalks.Service.Mappers;
 using Fintalks.Service.Services.UserInfoService;
@@ -42,6 +43,7 @@ builder.Services.AddScoped<IUserManagementService, UserManagementService>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserInfoRepository, UserInfoRepository>();
+builder.Services.AddScoped<IUserManagementRepository, UserManagementRepository>();
 
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();

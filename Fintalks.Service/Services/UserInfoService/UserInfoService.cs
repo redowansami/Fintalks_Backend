@@ -11,9 +11,10 @@ namespace Fintalks.Service.Services.UserInfoService
     public class UserInfoService(IUserInfoRepository _userInfoRepository, IMapper _mapper)
         : IUserInfoService
     {
-        public async Task<bool> CreateUserInfo(CreateUserInfoCommand createUserInfo)
+        public async Task<bool> CreateUserInfo(CreateUserInfoCommand createUserInfo, DBUser newUser)
         {
             var user = _mapper.Map<DBUserInfo>(createUserInfo);
+            user.User = newUser;
             var result = await _userInfoRepository.CreateUserInfo(user);
             return result is not null;
         }

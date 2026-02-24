@@ -14,7 +14,7 @@ namespace Fintalks.Repository.Repositories.UserInfoRepository
         public async Task<DBUserInfo> CreateUserInfo(DBUserInfo userInfo)
         {
             _context.UserInfos.Add(userInfo);
-            await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();
             return userInfo;
         }
 

@@ -11,7 +11,7 @@ namespace Fintalks.Repository.Repositories.UserRepository
         public async Task<DBUser> CreateUser(DBUser user)
         {
             _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();
             return user;
         }
 
