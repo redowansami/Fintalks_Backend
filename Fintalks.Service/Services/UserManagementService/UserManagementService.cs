@@ -44,5 +44,22 @@ namespace Fintalks.Service.Services.UserManagementService
             }
             return "Could not create user";
         }
+
+        public async Task<string> UpdateUserProfile(
+            Guid id,
+            UpdateUserProfileCommand updateUserProfile
+        )
+        {
+            var updateUserCommand = _mapper.Map<UpdateUserCommand>(updateUserProfile);
+            var updatedUser = await _userService.UpdateUser(id, updateUserCommand);
+            var updateUserInfoCommand = _mapper.Map<UpdateUserInfoCommand>(updateUserProfile);
+            var result = await _userInfoService.UpdateUserInfo(
+                updatedUser.ID,
+                updateUserInfoCommand
+            );
+            if (result)
+                return "User updated successfully";
+            return "Failed to Update User";
+        }
     }
 }

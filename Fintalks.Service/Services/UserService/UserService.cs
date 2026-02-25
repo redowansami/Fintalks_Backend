@@ -80,7 +80,7 @@ namespace Fintalks.Service.Services.UserService
         {
             var UserToUpdate = await GetDBUserByID(id);
             var user = _mapper.Map(UpdateUser, UserToUpdate);
-            var updatedUser = await _userRepository.UpdateUser(id, user);
+            var updatedUser = await _userRepository.UpdateUser(user);
             var userModel = _mapper.Map<User>(updatedUser);
             return _mapper.Map<UserResponseDTO>(userModel);
         }

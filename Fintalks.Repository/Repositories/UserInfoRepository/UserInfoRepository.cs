@@ -22,5 +22,12 @@ namespace Fintalks.Repository.Repositories.UserInfoRepository
         {
             return await query.FirstOrDefaultAsync(u => u.DBUserID == id);
         }
+
+        public async Task<DBUserInfo> UpdateUserInfo(DBUserInfo updateUserInfo)
+        {
+            _context.Update(updateUserInfo);
+            await _context.SaveChangesAsync();
+            return updateUserInfo;
+        }
     }
 }

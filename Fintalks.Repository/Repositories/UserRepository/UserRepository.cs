@@ -26,7 +26,7 @@ namespace Fintalks.Repository.Repositories.UserRepository
             return await query.FirstOrDefaultAsync(u => u.UserID == id);
         }
 
-        public async Task<DBUser> UpdateUser(Guid id, DBUser UpdateUser)
+        public async Task<DBUser> UpdateUser(DBUser UpdateUser)
         {
             _context.Update(UpdateUser);
             await _context.SaveChangesAsync();

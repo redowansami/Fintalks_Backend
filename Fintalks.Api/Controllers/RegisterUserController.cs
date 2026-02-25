@@ -24,5 +24,15 @@ namespace Fintalks.Api.Controllers
             var result = await _userManagementService.FailedCreateUser(user);
             return BadRequest(result);
         }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<string>> UpdateUserProfile(
+            Guid id,
+            UpdateUserProfileCommand updateUserProfile
+        )
+        {
+            var result = await _userManagementService.UpdateUserProfile(id, updateUserProfile);
+            return Ok(result);
+        }
     }
 }

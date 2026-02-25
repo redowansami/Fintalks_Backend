@@ -10,7 +10,7 @@ namespace Fintalks.Repository.Repositories.UserRepository
 
         public Task<DBUser?> GetUserById(Guid id);
 
-        public Task<DBUser> UpdateUser(Guid id, DBUser UpdateUser);
+        public Task<DBUser> UpdateUser(DBUser UpdateUser);
 
         public Task DeleteUser(DBUser userToDelete);
 

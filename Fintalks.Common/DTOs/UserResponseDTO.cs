@@ -5,6 +5,7 @@ namespace Fintalks.Common.DTOs
 {
     public class UserResponseDTO
     {
+        public int ID { get; set; }
         public Guid UserID { get; set; }
         public required string UserName { get; set; }
         public required string Name { get; set; }
