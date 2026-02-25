@@ -15,14 +15,14 @@ namespace Fintalks.Api.Controllers
         public async Task<ActionResult<string>> CreateUser(RegisterUserCommand user)
         {
             var result = await _userManagementService.CreateUser(user);
-            return result;
+            return Ok(result);
         }
 
         [HttpPost("Failed")]
         public async Task<ActionResult<string>> FailedCreateUser(RegisterUserCommand user)
         {
             var result = await _userManagementService.FailedCreateUser(user);
-            return result;
+            return BadRequest(result);
         }
     }
 }

@@ -36,6 +36,7 @@ namespace Fintalks.Repository.Repositories.UserRepository
         public async Task DeleteUser(DBUser userToDelete)
         {
             //_context.Users.Remove(userToDelete);
+
             _context.Users.SoftDelete(userToDelete);
             await _context.SaveChangesAsync();
         }

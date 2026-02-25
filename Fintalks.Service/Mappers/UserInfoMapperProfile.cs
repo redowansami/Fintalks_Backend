@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AutoMapper;
 using Fintalks.Common.Commands;
+using Fintalks.Common.Models;
 using Fintalks.DB.DBEntity;
 
 namespace Fintalks.Service.Mappers
@@ -11,7 +12,8 @@ namespace Fintalks.Service.Mappers
     {
         public UserInfoMapperProfile()
         {
-            CreateMap<CreateUserInfoCommand, DBUserInfo>();
+            CreateMap<CreateUserInfoCommand, UserInfo>();
+            CreateMap<UserInfo, DBUserInfo>();
         }
     }
 }
