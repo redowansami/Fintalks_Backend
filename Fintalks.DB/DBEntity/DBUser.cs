@@ -13,7 +13,7 @@ namespace Fintalks.DB.DBEntity
         public required string Email { get; set; }
         public DateOnly JoinDate { get; set; }
         public UserRole Role { get; set; }
-        public bool isEmailConfirmed { get; set; }
+        public bool IsEmailConfirmed { get; set; }
         public string? Bio { get; set; }
         public string? ProfilePictureUrl { get; set; }
         public DateTime? DeletedAt { get; set; }
@@ -21,7 +21,7 @@ namespace Fintalks.DB.DBEntity
 
         public override string ToString()
         {
-            return $"DBUser [UserID={UserID}, UserName={UserName}, Name={FirstName}--{LastName}, Email={Email}, JoinDate={JoinDate}, Role={Role}, Confirmed={isEmailConfirmed}, Bio={Bio ?? "null"}, ProfilePic={ProfilePictureUrl ?? "null"}, DeletedAt={DeletedAt?.ToString() ?? "null"}]";
+            return $"DBUser [UserID={UserID}, UserName={UserName}, Name={FirstName}--{LastName}, Email={Email}, JoinDate={JoinDate}, Role={Role}, Confirmed={IsEmailConfirmed}, Bio={Bio ?? "null"}, ProfilePic={ProfilePictureUrl ?? "null"}, DeletedAt={DeletedAt?.ToString() ?? "null"}]";
         }
     }
 }

@@ -5,6 +5,12 @@
         public static class Message
         {
             public const string invalidEmail = "Invalid email format.";
+
+            public static class Register
+            {
+                public const string success = "Registration Successful";
+                public const string failed = "Registration Failed";
+            }
         }
 
         public static class Length

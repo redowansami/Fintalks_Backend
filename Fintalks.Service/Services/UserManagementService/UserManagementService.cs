@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
 using Fintalks.Common.Commands;
+using Fintalks.Common.Constants;
+using Fintalks.Common.Exceptions;
+using Fintalks.Common.Models;
 using Fintalks.DB.DBEntity;
 using Fintalks.Repository.Repositories.UserManagementRepository;
 using Fintalks.Service.Services.UserInfoService;
@@ -17,49 +17,53 @@ namespace Fintalks.Service.Services.UserManagementService
         IUserManagementRepository _userManagementRepository
     ) : IUserManagementService
     {
-        public async Task<string> CreateUser(RegisterUserCommand registerUser)
+        public async Task<string> RegisterUser(RegisterUserCommand registerUser)
         {
+            await IsUnique(registerUser);
+
             var createUser = _mapper.Map<CreateUserCommand>(registerUser);
-            var newUser = await _userService.CreateUser(createUser);
-            var userInfo = _mapper.Map<CreateUserInfoCommand>(registerUser);
-            bool success = await _userInfoService.CreateUserInfo(userInfo, newUser);
-            if (success)
-            {
-                await _userManagementRepository.Commit();
-                return "User created successfully";
-            }
-            return "Could not create user";
+            var user = _mapper.Map<User>(createUser);
+            var dbUser = _mapper.Map<DBUser>(user);
+
+            var createUserInfo = _mapper.Map<CreateUserInfoCommand>(registerUser);
+            var userInfo = _mapper.Map<UserInfo>(createUserInfo);
+            var dbUserInfo = _mapper.Map<DBUserInfo>(userInfo);
+
+            var success = await _userManagementRepository.RegisterUser(dbUser, dbUserInfo);
+            return success ? UserConst.Message.Register.success : UserConst.Message.Register.failed;
         }
 
-        public async Task<string> FailedCreateUser(RegisterUserCommand registerUser)
-        {
-            var createUser = _mapper.Map<CreateUserCommand>(registerUser);
-            var newUser = await _userService.CreateUser(createUser);
-            var userInfo = _mapper.Map<CreateUserInfoCommand>(registerUser);
-            bool success = false;
-            if (success)
-            {
-                await _userManagementRepository.Commit();
-                return "User created successfully";
-            }
-            return "Could not create user";
-        }
-
-        public async Task<string> UpdateUserProfile(
+        public async Task<bool> UpdateUserProfile(
             Guid id,
             UpdateUserProfileCommand updateUserProfile
         )
         {
+            var user = await _userService.GetDBUserByID(id);
+            var userInfo = await _userInfoService.GetUserInfoByID(user.ID);
+
             var updateUserCommand = _mapper.Map<UpdateUserCommand>(updateUserProfile);
-            var updatedUser = await _userService.UpdateUser(id, updateUserCommand);
+            _mapper.Map(updateUserCommand, user);
+
             var updateUserInfoCommand = _mapper.Map<UpdateUserInfoCommand>(updateUserProfile);
-            var result = await _userInfoService.UpdateUserInfo(
-                updatedUser.ID,
-                updateUserInfoCommand
-            );
-            if (result)
-                return "User updated successfully";
-            return "Failed to Update User";
+            _mapper.Map(updateUserInfoCommand, userInfo);
+
+            var success = await _userManagementRepository.UpdateUserProfile(user, userInfo);
+
+            return success;
+        }
+
+        private async Task IsUnique(RegisterUserCommand registerUser)
+        {
+            bool userNameExists = await _userService.IsUserNameTaken(registerUser.UserName);
+            bool emailExists = await _userService.IsEmailTaken(registerUser.Email);
+
+            List<string> errors = new();
+            if (userNameExists)
+                errors.Add(ErrorConst.Message.userNameExists);
+            if (emailExists)
+                errors.Add(ErrorConst.Message.emailExists);
+            if (errors.Any())
+                throw new ConflictException(string.Join(", ", errors));
         }
     }
 }

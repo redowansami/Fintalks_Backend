@@ -5,7 +5,7 @@ using Fintalks.DB;
 using Fintalks.DB.DBEntity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Fintalks.Repository.Repositories.UserInfoRepository
+namespace Fintalks.Repository.Repositories
 {
     public class UserInfoRepository(ApplicationDBContext _context) : IUserInfoRepository
     {
@@ -14,7 +14,7 @@ namespace Fintalks.Repository.Repositories.UserInfoRepository
         public async Task<DBUserInfo> CreateUserInfo(DBUserInfo userInfo)
         {
             _context.UserInfos.Add(userInfo);
-            //await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return userInfo;
         }
 

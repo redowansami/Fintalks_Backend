@@ -1,6 +1,6 @@
 ﻿using Fintalks.DB.DBEntity;
 
-namespace Fintalks.Repository.Repositories.UserRepository
+namespace Fintalks.Repository.Repositories
 {
     public interface IUserRepository
     {

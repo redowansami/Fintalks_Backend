@@ -1,9 +1,8 @@
 using System.Text.Json.Serialization;
 using Fintalks.Api.Validator;
 using Fintalks.DB;
-using Fintalks.Repository.Repositories.UserInfoRepository;
+using Fintalks.Repository.Repositories;
 using Fintalks.Repository.Repositories.UserManagementRepository;
-using Fintalks.Repository.Repositories.UserRepository;
 using Fintalks.Service.Mappers;
 using Fintalks.Service.Services.UserInfoService;
 using Fintalks.Service.Services.UserManagementService;

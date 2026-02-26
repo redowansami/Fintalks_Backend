@@ -1,9 +1,10 @@
-﻿using Fintalks.DB;
+﻿using Fintalks.Common.Interfaces;
+using Fintalks.DB;
 using Fintalks.DB.DBEntity;
 using Fintalks.DB.Extensions;
 using Microsoft.EntityFrameworkCore;
 
-namespace Fintalks.Repository.Repositories.UserRepository
+namespace Fintalks.Repository.Repositories
 {
     public class UserRepository(ApplicationDBContext _context) : IUserRepository
     {
@@ -12,12 +13,13 @@ namespace Fintalks.Repository.Repositories.UserRepository
         public async Task<DBUser> CreateUser(DBUser user)
         {
             _context.Users.Add(user);
-            //await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return user;
         }
 
         public async Task<IEnumerable<DBUser>> GetUsers()
         {
+            var abc = _context.Users.Where(x => x.IsEmailConfirmed);
             return await query.ToListAsync();
         }
 
@@ -36,29 +38,26 @@ namespace Fintalks.Repository.Repositories.UserRepository
         public async Task DeleteUser(DBUser userToDelete)
         {
             //_context.Users.Remove(userToDelete);
+            if (userToDelete is ISoftDeletable)
+            {
+                _context.Users.SoftDelete(userToDelete);
+            }
+            else
+            {
+                _context.Users.Remove(userToDelete);
+            }
 
-            _context.Users.SoftDelete(userToDelete);
             await _context.SaveChangesAsync();
         }
 
         public async Task<bool> IsEmailTaken(string email)
         {
-            var user = await query.FirstOrDefaultAsync(u => u.Email == email);
-            if (user is null)
-            {
-                return false;
-            }
-            return true;
+            return await query.AnyAsync(u => u.Email == email);
         }
 
         public async Task<bool> IsUserNameTaken(string userName)
         {
-            var user = await query.FirstOrDefaultAsync(u => u.UserName == userName);
-            if (user is null)
-            {
-                return false;
-            }
-            return true;
+            return await query.AnyAsync(u => u.UserName == userName);
         }
     }
 }

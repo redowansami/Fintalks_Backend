@@ -12,17 +12,10 @@ namespace Fintalks.Api.Controllers
         : ControllerBase
     {
         [HttpPost]
-        public async Task<ActionResult<string>> CreateUser(RegisterUserCommand user)
+        public async Task<ActionResult<string>> RegisterUser(RegisterUserCommand user)
         {
-            var result = await _userManagementService.CreateUser(user);
+            var result = await _userManagementService.RegisterUser(user);
             return Ok(result);
-        }
-
-        [HttpPost("Failed")]
-        public async Task<ActionResult<string>> FailedCreateUser(RegisterUserCommand user)
-        {
-            var result = await _userManagementService.FailedCreateUser(user);
-            return BadRequest(result);
         }
 
         [HttpPut("{id}")]
@@ -32,7 +25,7 @@ namespace Fintalks.Api.Controllers
         )
         {
             var result = await _userManagementService.UpdateUserProfile(id, updateUserProfile);
-            return Ok(result);
+            return result ? Ok("Updated") : BadRequest("Cannot be updated");
         }
     }
 }

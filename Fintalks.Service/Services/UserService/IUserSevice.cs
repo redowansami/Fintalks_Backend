@@ -7,14 +7,11 @@ namespace Fintalks.Service.Services.UserService
 {
     public interface IUserSevice
     {
-        public Task<DBUser> CreateUser(CreateUserCommand createUser);
-
+        public Task<bool> IsUserNameTaken(string userName);
+        public Task<bool> IsEmailTaken(string email);
         public Task<IEnumerable<UserResponseDTO>> GetUsers();
-
         public Task<UserResponseDTO> GetUserByID(Guid id);
-
-        public Task<UserResponseDTO> UpdateUser(Guid id, UpdateUserCommand UpdateUser);
-
+        public Task<DBUser> GetDBUserByID(Guid id);
         public Task DeleteUser(Guid id);
     }
 }

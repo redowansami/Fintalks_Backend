@@ -9,12 +9,12 @@ namespace Fintalks.Api.Controllers
     [ApiController]
     public class UsersController(IUserSevice _userService) : ControllerBase
     {
-        [HttpPost]
-        public async Task<ActionResult<CreateUserResponseDTO>> CreateUser(CreateUserCommand user)
-        {
-            var createUser = await _userService.CreateUser(user);
-            return CreatedAtAction(nameof(GetUserByID), new { id = createUser.UserID }, createUser);
-        }
+        //[HttpPost]
+        //public async Task<ActionResult<CreateUserResponseDTO>> CreateUser(CreateUserCommand user)
+        //{
+        //    var createUser = await _userService.CreateUser(user);
+        //    return CreatedAtAction(nameof(GetUserByID), new { id = createUser.UserID }, createUser);
+        //}
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserResponseDTO>>> GetUsers()
@@ -30,15 +30,15 @@ namespace Fintalks.Api.Controllers
             return Ok(user);
         }
 
-        [HttpPut]
-        public async Task<ActionResult<UserResponseDTO>> UpdateUser(
-            Guid id,
-            UpdateUserCommand UpdateUser
-        )
-        {
-            var UpdatedUser = await _userService.UpdateUser(id, UpdateUser);
-            return Ok(UpdatedUser);
-        }
+        //[HttpPut]
+        //public async Task<ActionResult<UserResponseDTO>> UpdateUser(
+        //    Guid id,
+        //    UpdateUserCommand UpdateUser
+        //)
+        //{
+        //    var UpdatedUser = await _userService.UpdateUser(id, UpdateUser);
+        //    return Ok(UpdatedUser);
+        //}
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteUser(Guid id)

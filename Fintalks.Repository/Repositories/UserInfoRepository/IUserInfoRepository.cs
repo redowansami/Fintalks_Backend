@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Fintalks.DB.DBEntity;
 
-namespace Fintalks.Repository.Repositories.UserInfoRepository
+namespace Fintalks.Repository.Repositories
 {
     public interface IUserInfoRepository
     {

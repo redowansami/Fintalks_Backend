@@ -5,50 +5,21 @@ using Fintalks.Common.DTOs;
 using Fintalks.Common.Exceptions;
 using Fintalks.Common.Models;
 using Fintalks.DB.DBEntity;
-using Fintalks.Repository.Repositories.UserRepository;
+using Fintalks.Repository.Repositories;
 
 namespace Fintalks.Service.Services.UserService
 {
     public class UserService(IUserRepository _userRepository, IMapper _mapper) : IUserSevice
     {
-        public async Task<DBUser> CreateUser(CreateUserCommand createUser)
+        public async Task<bool> IsUserNameTaken(string userName)
         {
-            bool userNameExists = await _userRepository.IsUserNameTaken(createUser.UserName);
-            bool emailExists = await _userRepository.IsEmailTaken(createUser.Email);
-            List<string> errors = new();
-            if (userNameExists)
-                errors.Add(ErrorConst.Message.userNameExists);
-            if (emailExists)
-                errors.Add(ErrorConst.Message.emailExists);
-            if (errors.Any())
-                throw new ConflictException(string.Join(", ", errors));
-
-            var userModel = _mapper.Map<User>(createUser);
-            var DBuser = _mapper.Map<DBUser>(userModel);
-
-            return await _userRepository.CreateUser(DBuser);
+            return await _userRepository.IsUserNameTaken(userName);
         }
 
-        //public async Task<CreateUserResponseDTO> CreateUser(CreateUserCommand createUser)
-        //{
-        //    bool userNameExists = await _userRepository.IsUserNameTaken(createUser.UserName);
-        //    bool emailExists = await _userRepository.IsEmailTaken(createUser.Email);
-        //    List<string> errors = new();
-        //    if (userNameExists)
-        //        errors.Add(ErrorConst.Message.userNameExists);
-        //    if (emailExists)
-        //        errors.Add(ErrorConst.Message.emailExists);
-        //    if (errors.Any())
-        //        throw new ConflictException(string.Join(", ", errors));
-
-        //    var userModel = _mapper.Map<User>(createUser);
-        //    var DBuser = _mapper.Map<DBUser>(userModel);
-
-        //    var createdUser = await _userRepository.CreateUser(DBuser);
-        //    var userResponse = _mapper.Map<User>(createdUser);
-
-        //    return _mapper.Map<CreateUserResponseDTO>(userResponse);
-        //}
+        public async Task<bool> IsEmailTaken(string email)
+        {
+            return await _userRepository.IsEmailTaken(email);
+        }
 
         public async Task<IEnumerable<UserResponseDTO>> GetUsers()
         {
@@ -74,15 +45,6 @@ namespace Fintalks.Service.Services.UserService
             if (user is null)
                 throw new NotFoundException("User", id);
             return user;
-        }
-
-        public async Task<UserResponseDTO> UpdateUser(Guid id, UpdateUserCommand UpdateUser)
-        {
-            var UserToUpdate = await GetDBUserByID(id);
-            var user = _mapper.Map(UpdateUser, UserToUpdate);
-            var updatedUser = await _userRepository.UpdateUser(user);
-            var userModel = _mapper.Map<User>(updatedUser);
-            return _mapper.Map<UserResponseDTO>(userModel);
         }
 
         public async Task DeleteUser(Guid id)
